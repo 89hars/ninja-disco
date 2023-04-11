@@ -24,6 +24,7 @@ startBtn.addEventListener('click', setUpGame)
 
 
 restartBtn.addEventListener('click', () => {
+
 })
 
 
