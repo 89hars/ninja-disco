@@ -17,8 +17,8 @@ window.addEventListener("load", () => {
   //let ballSpeedX = 4;
   //let ballSpeedY = 4;
   
-  let ballAxisX = 200;
-  let ballAxisY = 200; 
+  //let ballAxisX = 200;
+  //let ballAxisY = 200; 
   
   let ninjaXaxis = 280;
   let ninjaYaxis = 400;
@@ -40,15 +40,7 @@ window.addEventListener("load", () => {
       this.color = color;
     }
 
-    createBall() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.color;
-      ctx.fill();
-      ctx.closePath();
-    }
-
-     /*// Ball
+    /*// Ball
   const myBall = () => {
     ctx.beginPath();
     ctx.arc(ballAxisX, ballAxisY, ballRadio, 0, Math.PI * 2);
@@ -57,21 +49,57 @@ window.addEventListener("load", () => {
     ctx.closePath();
   }
   */
+    createBall() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+      ctx.closePath();
+    }
 
-    // BORRAR UPDATE//
+    // UPDATE
     update() {
       this.x += this.speedX;
       this.y += this.speedY;
+      if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+        this.speedX = -this.speedX;
+      }
+      if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+        this.speedY = -this.speedY;
+      }
     }
 
+     /*// RIGH WALL    
+  if (this.x > canvas.width - this.radius) {
+        ballSpeedX *= - 1
+    }
+    
+  // LEFT WALL 
+  if (this.x < this.radius) {
+    ballSpeedX *= - 1
+  }
+  // Ceiling
+  if (this < this.raduis) {
+    ballSpeedY *= - 1
+  }
+  
+  // Floor
+  if (this.y > canvas.height - this.radius) {
+  ballSpeedY *= -1
+  }
+*/
 
   }
   
+  
+
+  // x, y, speedX, speedY, radius, color
   const balls = [
-    new Ball(104, 500, 4, 4, 20, "green"),
+    new Ball(104, 500, 1, 10, 20, "green"),
     new Ball(300, 100, -4, -4, 10, "blue"),
-    new Ball(100, 300, 5, -5, 15, "red"),
-    new Ball(170, 250, 5, -5, 15, "pink"),
+    new Ball(100, 200, 3, -8, 15, "red"),
+    new Ball(170, 250, 5, -5, 10, "pink"),
+    new Ball(50, 23, 2, -5, 8, "lightgreen"),
   ];
   
   // Ninja
@@ -97,28 +125,8 @@ window.addEventListener("load", () => {
     myNinja();
     endGame();
   
-    this.x += this.speedX;
-    this.y += this.speedY;
-  
-  // RIGH WALL    
-  if (balls[i].x > canvas.width - balls[i].radius) {
-        ballSpeedX *= - 1
-    }
-    
-  // LEFT WALL 
-  if (this.x < this.radius) {
-    ballSpeedX *= - 1
-  }
-  // Ceiling
-  if (this < this.raduis) {
-    ballSpeedY *= - 1
-  }
-  
-  // Floor
-  if (this.y > canvas.height - this.radius) {
-  ballSpeedY *= -1
-  }
 
+ 
   
   // Ninja movement  limmits
   
@@ -132,6 +140,7 @@ window.addEventListener("load", () => {
   ninjaYaxis += ninjaSpeed
   }
   
+  // Trigger Game Over
   if (gameOver) {
   cancelAnimationFrame(animateId) 
   restartBtn.style.display = 'block';
@@ -150,7 +159,6 @@ window.addEventListener("load", () => {
   
   startBtn.addEventListener('click', setUpGame)
   
-  
   restartBtn.addEventListener('click', () => {
     startBtn.style.display = 'none'
   
@@ -161,13 +169,6 @@ window.addEventListener("load", () => {
     movingDown = false
     movingLeft = false
     movingRight = false
-  
-    balls.forEach((ball) => {
-      ball.x = ball.initialX;
-      ball.y = ball.initialY;
-      ball.speedX = ball.initialSpeedX;
-      ball.speedY = ball.initialSpeedY;
-    });
   
   gameOver = false
   
@@ -218,12 +219,11 @@ window.addEventListener("load", () => {
       const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
       if (distance < balls[i].radius + ninjaWidth / 2)  {
       gameOver = true;
-      ctx.font = '48px sans-serif'
-        ctx.fillText('GAME OVER!!', canvas.width / 2 - 150, canvas.height / 2)
+      ctx.font = '28px sans-serif'
+        ctx.fillText('NOT AS DEADLY AS YOU LOOK!!', canvas.width / 2 - 230, canvas.height / 4)
     }
   }
   }
   
   }); //MAIN FUNCTION AND FIRST EVENTLISTENER!!
-  
   
