@@ -4,13 +4,12 @@ window.addEventListener("load", () => {
   const ctx = canvas.getContext("2d");
   const startBtn = document.querySelector("#start")
 
-const parent = document.querySelector("#welcome");
-const welcomeMsg = document.createElement("p");
-welcomeMsg.textContent = "Many have tried few have succeeded !!";
-parent.appendChild(welcomeMsg);
+  const parent = document.querySelector("#welcome");
+  const welcomeMsg = document.createElement("p");
+  welcomeMsg.innerText = "Show us those killer steps!!";
+  parent.appendChild(welcomeMsg);
 
   const restartBtn = document.querySelector("#restart")
-  
   canvas.style.display = 'none'
   restartBtn.style.display = 'none'
   
@@ -20,30 +19,35 @@ parent.appendChild(welcomeMsg);
   let movingLeft = false
   let movingRight = false
   
-  //let ballSpeedX = 4;
-  //let ballSpeedY = 4;
+  //let ballSpeedX = 4
+  //let ballSpeedY = 4
   
-  //let ballAxisX = 200;
-  //let ballAxisY = 200; 
+  //let ballAxisX = 200
+  //let ballAxisY = 200
   
-  let ninjaXaxis = 280;
-  let ninjaYaxis = 400;
-  const ninjaWidth = 20;
-  const ninjaHeight = 30;
-  const ninjaSpeed = 8;
-  // let ballRadio = 20;
+  let ninjaXaxis = 280
+  let ninjaYaxis = 400
+  const ninjaWidth = 20
+  const ninjaHeight = 30
+  const ninjaSpeed = 8
+  // let ballRadio = 20
   
-  let gameOver = false;
+  let gameOver = false
   let animateId 
+
+  let minutes = 0
+  let seconds = 0
+  let score = 0
+  
   
   class Ball {
     constructor(x, y, speedX, speedY, radius, color) {
       this.x = x;
       this.y = y;
-      this.speedX = speedX;
-      this.speedY = speedY;
-      this.radius = radius;
-      this.color = color;
+      this.speedX = speedX
+      this.speedY = speedY
+      this.radius = radius
+      this.color = color
     }
 
     /*// Ball
@@ -56,22 +60,22 @@ parent.appendChild(welcomeMsg);
   }
   */
     createBall() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.beginPath()
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
       ctx.fillStyle = this.color;
-      ctx.fill();
-      ctx.closePath();
+      ctx.fill()
+      ctx.closePath()
     }
 
     // UPDATE
     update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
+      this.x += this.speedX
+      this.y += this.speedY
       if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
-        this.speedX = -this.speedX;
+        this.speedX = -this.speedX
       }
       if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
-        this.speedY = -this.speedY;
+        this.speedY = -this.speedY
       }
     }
 
@@ -104,8 +108,10 @@ parent.appendChild(welcomeMsg);
     new Ball(104, 500, 1, 10, 20, "green"),
     new Ball(300, 100, -4, -4, 10, "blue"),
     new Ball(100, 200, 3, -8, 15, "red"),
-    new Ball(170, 250, 5, -5, 10, "pink"),
-    new Ball(50, 23, 2, -5, 8, "lightgreen"),
+    new Ball(580, 600, 7, -5, 10, "pink"),
+    new Ball(50, 23, 1, -5, 8, "lightgreen"),
+    new Ball(500, 700, 1, 5, 20, "yellow"),
+    new Ball(550, 700, -1, 7, 12, "lightblue")
   ];
   
   // Ninja
@@ -145,6 +151,15 @@ parent.appendChild(welcomeMsg);
   } else if (movingDown && ninjaYaxis < canvas.height - ninjaHeight) {
   ninjaYaxis += ninjaSpeed
   }
+
+    // Game ON
+    const setUpGame = () => {
+      canvas.style.display = 'block'
+      startBtn.style.display = 'none'
+      welcomeMsg.style.display = 'none'
+      animate();
+      }
+      
   
   // Trigger Game Over
   if (gameOver) {
@@ -156,13 +171,7 @@ parent.appendChild(welcomeMsg);
   
   }
     
-  // Game ON
-  const setUpGame = () => {
-  canvas.style.display = 'block'
-  startBtn.style.display = 'none'
-  welcomeMsg.style.display = 'none'
-  animate();
-  }
+
   
   startBtn.addEventListener('click', setUpGame)
 
@@ -172,6 +181,7 @@ parent.appendChild(welcomeMsg);
     gameOver = false;
     ninjaXaxis = 280
     ninjaYaxis = 400
+    
   
     setUpGame()
   })
