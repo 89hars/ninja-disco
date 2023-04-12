@@ -3,6 +3,12 @@ window.addEventListener("load", () => {
   const canvas = document.querySelector("canvas")
   const ctx = canvas.getContext("2d");
   const startBtn = document.querySelector("#start")
+
+const parent = document.querySelector("#welcome");
+const welcomeMsg = document.createElement("p");
+welcomeMsg.textContent = "Many have tried few have succeeded !!";
+parent.appendChild(welcomeMsg);
+
   const restartBtn = document.querySelector("#restart")
   
   canvas.style.display = 'none'
@@ -154,23 +160,18 @@ window.addEventListener("load", () => {
   const setUpGame = () => {
   canvas.style.display = 'block'
   startBtn.style.display = 'none'
+  welcomeMsg.style.display = 'none'
   animate();
   }
   
   startBtn.addEventListener('click', setUpGame)
-  
+
   restartBtn.addEventListener('click', () => {
-    startBtn.style.display = 'none'
-  
-    ninjaWidth = 20
+    restartBtn.style.display = 'none'
+    canvas.style.display = 'block'
+    gameOver = false;
     ninjaXaxis = 280
-  
-    movingUp = false
-    movingDown = false
-    movingLeft = false
-    movingRight = false
-  
-  gameOver = false
+    ninjaYaxis = 400
   
     setUpGame()
   })
