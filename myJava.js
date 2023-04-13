@@ -2,19 +2,40 @@ window.addEventListener("load", () => {
   const canvas = document.querySelector("canvas")
   const ctx = canvas.getContext("2d");
   const startBtn = document.querySelector("#start")
+
   const message = document.querySelector("#welcome");
   const welcomeMsg = document.createElement("p");
   welcomeMsg.innerText = "Show us those killer steps!!";
   message.appendChild(welcomeMsg)
+
+  // CSS IN CASE U MAKE IT WORK
+  //const impressiveText = document.createElement("p");
+  //impressiveText.innerText = "IMPRESSIVE, YOU ARE A SHADOW WARRIOR!";
+  //impressiveText.classList.add("winText");
+  //message.appendChild(impressiveText);
+
+  //const deadText = document.createElement("p");
+  //deadText.innerText = 'NOT AS DEADLY AS YOU LOOK!!';
+  //deadText.classList.add("winText");
+  //message.appendChild(impressiveText);
+
 
  
   const restartBtn = document.querySelector("#restart")
   const chrono = document.querySelector("#chrono")
   const score = document.querySelector("#score")
 
+  const ninjaTempel = new Image() 
+  ninjaTempel.src ='./img/back.jpg'
+  const ninjaImg = new Image()
+  ninjaImg.src ='./img/ninjaB.png'
+  
+
   chrono.style.display = 'none'
   canvas.style.display = 'none'
   restartBtn.style.display = 'none'
+  score.style.display = 'none'
+  //impressiveText.style.display = 'none'
   
   // Var
   let movingUp = false
@@ -24,8 +45,8 @@ window.addEventListener("load", () => {
   
   let ninjaXaxis = 280
   let ninjaYaxis = 400
-  const ninjaWidth = 20
-  const ninjaHeight = 30
+  const ninjaWidth = 30
+  const ninjaHeight = 50
   const ninjaSpeed = 8
 
   let gameOver = false
@@ -53,7 +74,7 @@ window.addEventListener("load", () => {
       ctx.closePath()
     }
   
-    // UPDATE
+  
     update() {
       this.x += this.speedX
       this.y += this.speedY
@@ -81,7 +102,7 @@ window.addEventListener("load", () => {
   // Ninja
   const myNinja = () => {
     ctx.beginPath ();
-    ctx.rect(ninjaXaxis, ninjaYaxis, ninjaWidth, ninjaHeight)
+    ctx.drawImage(ninjaImg, ninjaXaxis, ninjaYaxis, ninjaWidth, ninjaHeight);
     ctx.fillStyle = "black"
     ctx.fill()
     ctx.closePath()
@@ -101,23 +122,28 @@ window.addEventListener("load", () => {
 
       if(gameOver === false && seconds % 3 === 0) {
         playerScore += 5
-        score.innerText = playerScore;
+        score.innerText = playerScore
       }
 
-      if (minutes === 1) {
-        gameOver = true;
+      if (seconds === 45) {
+        gameOver = true
         ctx.font = '23px sans-serif'
         ctx.fillText('IMPRESSIVE, YOU ARE THE SHADOW WARRIOR!', canvas.width / 2 - 280, canvas.height / 4)
+        //impressiveText.style.display = 'block'
+        
       }
     }, 1000);
   } 
 /* josh wrotte u in the chat for styling this!!! You should be able to do .classList.add and give them a class name
- and then you will */
+ and then you will also read the threads on uploading images seems to be full of problems*/
   
   
     // ANIMATION
   const animate = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.drawImage(ninjaTempel, 0, 0, canvas.width, canvas.height);
+    
+
 
     for (let i = 0; i < balls.length; i++) {
       balls[i].createBall()
@@ -152,8 +178,10 @@ window.addEventListener("load", () => {
   const setUpGame = () => {
   canvas.style.display = 'block'
   chrono.style.display = 'block'
+  score.style.display = 'block'
   startBtn.style.display = 'none'
   welcomeMsg.style.display = 'none'
+  //impressiveText.style.display = 'none'
   startTimer();
   animate();
   }

@@ -1,0 +1,42 @@
+#canvas{
+  
+  }
+
+  #welcome {
+    color: rgb(194, 188, 235);
+    text-align: center;
+    font-size: 100px;
+
+  }
+
+  #start {
+    background-color: burlywood;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+   
+  }
+
+  #score {
+    font-size: 35px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    
+
+
+  }
+
+  #chrono {
+    color: black
+  }
+
+  #restart {
+    color: black;
+  }
+
+  #winText{
+   color: #94e479;
+  }
