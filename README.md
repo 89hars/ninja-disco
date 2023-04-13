@@ -21,22 +21,17 @@ Styling more deeply.
 # Data Structure
 
 createBall()
-Drawing of the ball
 
 update() 
-update of the ball position
 
 myNinja()
-Drawing of the ninja
 
 startTimer()
-Manage the time, the score, and the winning condition.
 
 animate()
-Animate the ninja, balls and trigger endGame function.
 
 endGame ()
-Conditions for losing the game
+
 
 # States and States Transitions
 
