@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
 
   const message = document.querySelector("#welcome");
   const welcomeMsg = document.createElement("p");
-  welcomeMsg.innerText = "Show us those killer steps!!";
+  welcomeMsg.innerText = "Show us some killer steps!!";
   message.appendChild(welcomeMsg)
 
   // CSS IN CASE U MAKE IT WORK
@@ -16,8 +16,8 @@ window.addEventListener("load", () => {
 
   //const deadText = document.createElement("p");
   //deadText.innerText = 'NOT AS DEADLY AS YOU LOOK!!';
-  //deadText.classList.add("winText");
-  //message.appendChild(impressiveText);
+  //deadText.classList.add("loserText");
+  //message.appendChild(deadText);
 
 
  
@@ -35,6 +35,7 @@ window.addEventListener("load", () => {
   canvas.style.display = 'none'
   restartBtn.style.display = 'none'
   score.style.display = 'none'
+  //deadText.style.display = 'none'
   //impressiveText.style.display = 'none'
   
   // Var
@@ -45,8 +46,8 @@ window.addEventListener("load", () => {
   
   let ninjaXaxis = 280
   let ninjaYaxis = 400
-  const ninjaWidth = 30
-  const ninjaHeight = 50
+  const ninjaWidth = 40
+  const ninjaHeight = 60
   const ninjaSpeed = 8
 
   let gameOver = false
@@ -78,6 +79,7 @@ window.addEventListener("load", () => {
     update() {
       this.x += this.speedX
       this.y += this.speedY
+
       if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
         this.speedX = -this.speedX
       }
@@ -89,13 +91,13 @@ window.addEventListener("load", () => {
   
         // x, y, speedX, speedY, radius, color
         const balls = [
-          new Ball(104, 500, 1, 10, 20, "green"),
-          new Ball(300, 100, -4, -4, 10, "blue"),
-          new Ball(200, 200, 3, -8, 15, "red"),
-          new Ball(580, 600, 7, -5, 10, "pink"),
-          new Ball(50, 23, 1, -5, 8, "lightgreen"),
+          new Ball(104, 500, 1, 10, 20, "yellow"),
+          new Ball(300, 100, -4, -4, 10, "yellow"),
+          new Ball(200, 200, 3, -8, 15, "yellow"),
+          new Ball(580, 600, 7, -5, 10, "yellow"),
+          new Ball(50, 23, 1, -5, 8, "yellow"),
           new Ball(400, 700, 1, 5, 20, "yellow"),
-          new Ball(500, 700, -1, 7, 12, "lightblue")
+          new Ball(500, 700, -1, 7, 12, "yellow")
         ];
   
   
@@ -106,6 +108,17 @@ window.addEventListener("load", () => {
     ctx.fillStyle = "black"
     ctx.fill()
     ctx.closePath()
+  
+    if (movingLeft && ninjaXaxis > 0) {
+      ninjaXaxis -= ninjaSpeed
+      } else if (movingRight && ninjaXaxis < canvas.width - ninjaWidth ) {
+      ninjaXaxis += ninjaSpeed
+      } else if (movingUp && ninjaYaxis > 0) {
+      ninjaYaxis -= ninjaSpeed
+      } else if (movingDown && ninjaYaxis < canvas.height - ninjaHeight) {
+      ninjaYaxis += ninjaSpeed
+      }
+
     }
 
     // Game Timer & Score && Winning Condition
@@ -113,10 +126,10 @@ window.addEventListener("load", () => {
     timerInterval = setInterval(() => {
       if (gameOver === false){
       seconds++
-      if (seconds === 60) {
+     /* if (seconds === 60) {
         minutes++
         seconds = 0
-      }
+      } */
     }
       chrono.innerText = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
 
@@ -125,25 +138,23 @@ window.addEventListener("load", () => {
         score.innerText = playerScore
       }
 
-      if (seconds === 45) {
+      if (seconds === 15) {
         gameOver = true
-        ctx.font = '23px sans-serif'
-        ctx.fillText('IMPRESSIVE, YOU ARE THE SHADOW WARRIOR!', canvas.width / 2 - 280, canvas.height / 4)
+        ctx.font = '38px sans-serif'
+        ctx.fillStyle = 'white'
+        ctx.fillText('IMPRESSIVE!!', canvas.width / 2 - 100, canvas.height / 4)
         //impressiveText.style.display = 'block'
         
       }
     }, 1000);
   } 
-/* josh wrotte u in the chat for styling this!!! You should be able to do .classList.add and give them a class name
- and then you will also read the threads on uploading images seems to be full of problems*/
+
   
   
     // ANIMATION
   const animate = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(ninjaTempel, 0, 0, canvas.width, canvas.height);
-    
-
 
     for (let i = 0; i < balls.length; i++) {
       balls[i].createBall()
@@ -152,19 +163,8 @@ window.addEventListener("load", () => {
 
     myNinja();
     endGame();
-    
 
-  // Ninja movement  limmits
-  
-  if (movingLeft && ninjaXaxis > 0) {
-  ninjaXaxis -= ninjaSpeed
-  } else if (movingRight && ninjaXaxis < canvas.width - ninjaWidth ) {
-  ninjaXaxis += ninjaSpeed
-  } else if (movingUp && ninjaYaxis > 0) {
-  ninjaYaxis -= ninjaSpeed
-  } else if (movingDown && ninjaYaxis < canvas.height - ninjaHeight) {
-  ninjaYaxis += ninjaSpeed
-  }
+  // L
   
   // Trigger Game Over
   if (gameOver) {
@@ -181,6 +181,7 @@ window.addEventListener("load", () => {
   score.style.display = 'block'
   startBtn.style.display = 'none'
   welcomeMsg.style.display = 'none'
+  //deadText.style.display = 'none'
   //impressiveText.style.display = 'none'
   startTimer();
   animate();
@@ -251,8 +252,13 @@ window.addEventListener("load", () => {
       const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
       if (distance < balls[i].radius + ninjaWidth / 2)  {
       gameOver = true;
-      ctx.font = '28px sans-serif'
-        ctx.fillText('NOT AS DEADLY AS YOU LOOK!!', canvas.width / 2 - 230, canvas.height / 4)
+      //deadText.style.display = 'block'
+      ctx.font = '35px roboto'
+      ctx.fillStyle = 'white'
+      ctx.fillText('NOT AS DEADLY AS YOU LOOK!!', canvas.width / 2 - 270, canvas.height / 4 - 100)
+      ctx.font = '20px roboto'
+      ctx.fillStyle = 'white'
+      ctx.fillText('THE DANCEFLOOR HAS DEFEATED YOU ... Click Restart!', canvas.width / 2 - 250, canvas.height / 4)
     }
   }
   }
