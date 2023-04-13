@@ -39,6 +39,7 @@ endGame ()
 Conditions for losing the game
 
 # States and States Transitions
+
 Start game screen
 In game screen
 Game over screen
