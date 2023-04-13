@@ -1,15 +1,18 @@
 window.addEventListener("load", () => {
-
   const canvas = document.querySelector("canvas")
   const ctx = canvas.getContext("2d");
   const startBtn = document.querySelector("#start")
-
-  const parent = document.querySelector("#welcome");
+  const message = document.querySelector("#welcome");
   const welcomeMsg = document.createElement("p");
   welcomeMsg.innerText = "Show us those killer steps!!";
-  parent.appendChild(welcomeMsg);
+  message.appendChild(welcomeMsg)
 
+ 
   const restartBtn = document.querySelector("#restart")
+  const chrono = document.querySelector("#chrono")
+  const score = document.querySelector("#score")
+
+  chrono.style.display = 'none'
   canvas.style.display = 'none'
   restartBtn.style.display = 'none'
   
@@ -19,27 +22,19 @@ window.addEventListener("load", () => {
   let movingLeft = false
   let movingRight = false
   
-  //let ballSpeedX = 4
-  //let ballSpeedY = 4
-  
-  //let ballAxisX = 200
-  //let ballAxisY = 200
-  
   let ninjaXaxis = 280
   let ninjaYaxis = 400
   const ninjaWidth = 20
   const ninjaHeight = 30
   const ninjaSpeed = 8
-  // let ballRadio = 20
-  
+
   let gameOver = false
   let animateId 
 
   let minutes = 0
   let seconds = 0
-  let score = 0
-  
-  
+  let playerScore = 0
+
   class Ball {
     constructor(x, y, speedX, speedY, radius, color) {
       this.x = x;
@@ -50,15 +45,6 @@ window.addEventListener("load", () => {
       this.color = color
     }
 
-    /*// Ball
-  const myBall = () => {
-    ctx.beginPath();
-    ctx.arc(ballAxisX, ballAxisY, ballRadio, 0, Math.PI * 2);
-    ctx.fillStyle = "green"
-    ctx.fill();
-    ctx.closePath();
-  }
-  */
     createBall() {
       ctx.beginPath()
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
@@ -66,7 +52,7 @@ window.addEventListener("load", () => {
       ctx.fill()
       ctx.closePath()
     }
-
+  
     // UPDATE
     update() {
       this.x += this.speedX
@@ -77,52 +63,56 @@ window.addEventListener("load", () => {
       if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
         this.speedY = -this.speedY
       }
-    }
-
-     /*// RIGH WALL    
-  if (this.x > canvas.width - this.radius) {
-        ballSpeedX *= - 1
-    }
-    
-  // LEFT WALL 
-  if (this.x < this.radius) {
-    ballSpeedX *= - 1
-  }
-  // Ceiling
-  if (this < this.raduis) {
-    ballSpeedY *= - 1
+    } 
   }
   
-  // Floor
-  if (this.y > canvas.height - this.radius) {
-  ballSpeedY *= -1
-  }
-*/
-
-  }
+        // x, y, speedX, speedY, radius, color
+        const balls = [
+          new Ball(104, 500, 1, 10, 20, "green"),
+          new Ball(300, 100, -4, -4, 10, "blue"),
+          new Ball(200, 200, 3, -8, 15, "red"),
+          new Ball(580, 600, 7, -5, 10, "pink"),
+          new Ball(50, 23, 1, -5, 8, "lightgreen"),
+          new Ball(400, 700, 1, 5, 20, "yellow"),
+          new Ball(500, 700, -1, 7, 12, "lightblue")
+        ];
   
-  
-
-  // x, y, speedX, speedY, radius, color
-  const balls = [
-    new Ball(104, 500, 1, 10, 20, "green"),
-    new Ball(300, 100, -4, -4, 10, "blue"),
-    new Ball(100, 200, 3, -8, 15, "red"),
-    new Ball(580, 600, 7, -5, 10, "pink"),
-    new Ball(50, 23, 1, -5, 8, "lightgreen"),
-    new Ball(500, 700, 1, 5, 20, "yellow"),
-    new Ball(550, 700, -1, 7, 12, "lightblue")
-  ];
   
   // Ninja
   const myNinja = () => {
     ctx.beginPath ();
-    ctx.rect(ninjaXaxis, ninjaYaxis, ninjaWidth, ninjaHeight);
-    ctx.fillStyle = "black";
-    ctx.fill();
-    ctx.closePath();
+    ctx.rect(ninjaXaxis, ninjaYaxis, ninjaWidth, ninjaHeight)
+    ctx.fillStyle = "black"
+    ctx.fill()
+    ctx.closePath()
     }
-  
+
+    // Game Timer & Score && Winning Condition
+  const startTimer = () => {
+    timerInterval = setInterval(() => {
+      if (gameOver === false){
+      seconds++
+      if (seconds === 60) {
+        minutes++
+        seconds = 0
+      }
+    }
+      chrono.innerText = `${minutes.toString().padStart(2, "0")} : ${seconds.toString().padStart(2, "0")}`;
+
+      if(gameOver === false && seconds % 3 === 0) {
+        playerScore += 5
+        score.innerText = playerScore;
+      }
+
+      if (minutes === 1) {
+        gameOver = true;
+        ctx.font = '23px sans-serif'
+        ctx.fillText('IMPRESSIVE, YOU ARE THE SHADOW WARRIOR!', canvas.width / 2 - 280, canvas.height / 4)
+      }
+    }, 1000);
+  } 
+/* josh wrotte u in the chat for styling this!!! You should be able to do .classList.add and give them a class name
+ and then you will */
   
   
     // ANIMATION
@@ -130,36 +120,25 @@ window.addEventListener("load", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     for (let i = 0; i < balls.length; i++) {
-      balls[i].createBall();
-      balls[i].update();
+      balls[i].createBall()
+      balls[i].update()
     }
 
     myNinja();
     endGame();
-  
+    
 
- 
-  
   // Ninja movement  limmits
   
   if (movingLeft && ninjaXaxis > 0) {
-  ninjaXaxis -= ninjaSpeed;
+  ninjaXaxis -= ninjaSpeed
   } else if (movingRight && ninjaXaxis < canvas.width - ninjaWidth ) {
-  ninjaXaxis += ninjaSpeed;
+  ninjaXaxis += ninjaSpeed
   } else if (movingUp && ninjaYaxis > 0) {
   ninjaYaxis -= ninjaSpeed
   } else if (movingDown && ninjaYaxis < canvas.height - ninjaHeight) {
   ninjaYaxis += ninjaSpeed
   }
-
-    // Game ON
-    const setUpGame = () => {
-      canvas.style.display = 'block'
-      startBtn.style.display = 'none'
-      welcomeMsg.style.display = 'none'
-      animate();
-      }
-      
   
   // Trigger Game Over
   if (gameOver) {
@@ -167,22 +146,34 @@ window.addEventListener("load", () => {
   restartBtn.style.display = 'block';
   } else {
   animateId = requestAnimationFrame(animate)
-  }  
-  
-  }
+  }}
     
-
+  // Game ON
+  const setUpGame = () => {
+  canvas.style.display = 'block'
+  chrono.style.display = 'block'
+  startBtn.style.display = 'none'
+  welcomeMsg.style.display = 'none'
+  startTimer();
+  animate();
+  }
   
   startBtn.addEventListener('click', setUpGame)
-
+  
   restartBtn.addEventListener('click', () => {
+    clearInterval(timerInterval)
+    minutes = 0
+    seconds = 0
+    chrono.innerText = '00:00'
+    score.innerText = '0'
+
     restartBtn.style.display = 'none'
     canvas.style.display = 'block'
     gameOver = false;
     ninjaXaxis = 280
     ninjaYaxis = 400
+    balls
     
-  
     setUpGame()
   })
   
@@ -222,6 +213,8 @@ window.addEventListener("load", () => {
       movingDown = false
     }
    })
+
+   // GAME OVER CONDITIONS
   
    const endGame = () => {
     for (let i = 0; i < balls.length; i++) {
@@ -235,6 +228,5 @@ window.addEventListener("load", () => {
     }
   }
   }
-  
-  }); //MAIN FUNCTION AND FIRST EVENTLISTENER!!
+  }); 
   
